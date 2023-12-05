@@ -1,7 +1,6 @@
-namespace Domain.Services
+namespace Domain.Services;
+
+[AttributeUsage(AttributeTargets.Class)]
+public sealed class DomainServiceAttribute : Attribute
 {
-    [AttributeUsage(AttributeTargets.Class)]
-    public sealed class DomainServiceAttribute : Attribute
-    {
-    }
 }

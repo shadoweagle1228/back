@@ -1,5 +1,4 @@
 ﻿using Infrastructure.Context;
-using Infrastructure.Context;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

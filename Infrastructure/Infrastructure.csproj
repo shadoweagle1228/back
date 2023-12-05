@@ -7,13 +7,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Inicialize\Entities\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <PackageReference Include="Ardalis.Specification.EntityFrameworkCore" Version="6.1.0" />
+      <PackageReference Include="Finbuckle.MultiTenant.AspNetCore" Version="6.12.0" />
       <PackageReference Include="FluentValidation" Version="11.7.1" />
       <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.7.1" />
+      <PackageReference Include="HotChocolate" Version="14.0.0-p.15" />
+      <PackageReference Include="HotChocolate.AspNetCore" Version="14.0.0-p.15" />
+      <PackageReference Include="HotChocolate.Data" Version="14.0.0-p.15" />
+      <PackageReference Include="HotChocolate.Data.EntityFramework" Version="14.0.0-p.15" />
       <PackageReference Include="MediatR" Version="11.1.0" />
       <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.21" />

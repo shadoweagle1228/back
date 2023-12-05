@@ -1,5 +1,6 @@
 using Domain.Entities;
 using Domain.Entities.Base;
+using Domain.Entities.Idempotency;
 using Infrastructure.Extensions.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -19,7 +20,10 @@ namespace Infrastructure.Context
         }
 
         public DbSet<Company> Companies { get; set; }
+        public DbSet<DocumentType> DocumentTypes { get; set; }
         public DbSet<CommercialSegment> ComercialSegments { get; set; }
+        public DbSet<CompanyId> CompanyIds { get; set; }
+        public DbSet<CommercialSegmentId> CommercialSegmentIds { get; set; }
 
 
         public async Task CommitAsync()

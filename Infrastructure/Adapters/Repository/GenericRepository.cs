@@ -18,11 +18,12 @@ public class GenericRepository<E> : IGenericRepository<E> where E : DomainEntity
     public async Task<E> AddAsync(E entity)
     {
         _ = entity ?? throw new ArgumentNullException(nameof(entity), Messages.EntityCannotBeNull);
+
         _context.Set<E>().Add(entity);
         await CommitAsync();
         return entity;
     }
-
+    
     public async Task DeleteAsync(ISoftDelete entity, bool deleteCascade = true)
     {
         if (entity is { DeletedOn: not null })
@@ -47,7 +48,7 @@ public class GenericRepository<E> : IGenericRepository<E> where E : DomainEntity
                 }
             }
         }
-
+                
         await CommitAsync();
     }
 
@@ -116,29 +117,6 @@ public class GenericRepository<E> : IGenericRepository<E> where E : DomainEntity
 
     private async Task CommitAsync()
     {
-        _context.ChangeTracker.DetectChanges();
-
-        foreach (var entry in _context.ChangeTracker.Entries())
-        {
-            switch (entry.State)
-            {
-                case EntityState.Added:
-                    entry.Property("CreatedOn").CurrentValue = DateTime.UtcNow;
-                    break;
-                case EntityState.Modified:
-                    entry.Property("LastModifiedOn").CurrentValue = DateTime.UtcNow;
-                    break;
-                case EntityState.Detached:
-                    break;
-                case EntityState.Unchanged:
-                    break;
-                case EntityState.Deleted:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-
         await _context.CommitAsync().ConfigureAwait(false);
     }
 

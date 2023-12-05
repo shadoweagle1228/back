@@ -1,37 +1,28 @@
-using System.Reflection;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.Filters;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using Path = System.IO.Path;
 
 namespace Infrastructure.Extensions.OpenApi;
 
 public static class OpenApiDocumentationExtensions {
-    public static IServiceCollection AddOpenApiDocumentation(this IServiceCollection svc) {
-        svc.Configure<RouteOptions>(options => options.LowercaseUrls = true);
-        svc.AddSwaggerExamplesFromAssemblies(Assembly.GetEntryAssembly());
-        svc.AddSwaggerGen();
-        svc.AddEndpointsApiExplorer();
+    public static IServiceCollection AddOpenApiDocumentation(this IServiceCollection svc, IWebHostEnvironment env) {
         return svc.AddSwaggerGen(o =>
         {
-            const string companyUrl = "https://www.finotex.com/";
-            o.SwaggerDoc("v1", new OpenApiInfo
-            {
-                Title = "Base api finotex",
-                Description = "Configuracion de api para qr custom link",
-                Version = "v1",
-                Contact = new OpenApiContact
-                {
-                    Name = "Finotex",
-                    Email = "infousa@finotex.com",
-                    Url = new Uri(companyUrl)
-                }
-            });
+            var openApiDocPath = Path.Combine(env.ContentRootPath, "Docs", "openapi.yaml");
 
-            var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-            o.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
-            o.ExampleFilters();
+            // Carga manualmente el documento YAML
+            var yamlDoc = File.ReadAllText(openApiDocPath);
+
+            // Configuración para incluir el documento YAML
+            o.CustomSchemaIds(type => type.FullName); // Personalización opcional del ID del esquema
+            o.DescribeAllParametersInCamelCase(); // Otras configuraciones opcionales
+
+            // Agregar manualmente la operación con el documento YAML
+            o.OperationFilter<YamlOperationFilter>(yamlDoc);
         });
     }
 
@@ -40,5 +31,21 @@ public static class OpenApiDocumentationExtensions {
         app.UseSwagger();
         app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Block Api"));
         return app;
+    }
+}
+
+public class YamlOperationFilter : IOperationFilter
+{
+    private readonly string _yamlDoc;
+
+    public YamlOperationFilter(string yamlDoc)
+    {
+        _yamlDoc = yamlDoc;
+    }
+
+    public void Apply(OpenApiOperation operation, OperationFilterContext context)
+    {
+        // Agregar manualmente la extensión del documento YAML
+        operation.Extensions.Add("x-wagmp-code-gen-yaml", new OpenApiString(_yamlDoc));
     }
 }

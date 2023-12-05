@@ -12,13 +12,16 @@ if (builder.Environment.IsEnvironment(ApiConstants.LocalEnviroment))
 {
     config.AddUserSecrets<Program>();
 }
-
-builder.Services.AddSingleton<LocalizationMiddleware>();
+else
+{
+    config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+}
+builder.Services.AddLocalizationMessages();
 builder.Services.Configure<DatabaseSettings>(config.GetSection(nameof(DatabaseSettings)));
 var settings = config.GetSection(nameof(DatabaseSettings)).Get<DatabaseSettings>();
 builder.Services.AddHealthChecks().AddSqlServer(settings.ConnectionString);
 builder.Services.AddControllers(opts => opts.Filters.Add(typeof(AppExceptionFilterAttribute)));
-builder.Services.AddInfrastructure(config);
+builder.Services.AddInfrastructure(config, builder.Environment);
 
 builder.Services.AddEndpointsApiExplorer();
 
@@ -27,15 +30,15 @@ Log.Logger = new LoggerConfiguration().Enrich.FromLogContext()
     .CreateLogger();
 
 var app = builder.Build();
-app.UseMiddleware<LocalizationMiddleware>();
+await app.InitializeDatabasesAsync();
+app.UseInfrastructure();
+app.UseLocalizationMessages();
 app.UseRouting().UseHttpMetrics().UseEndpoints(endpoints =>
 {
     endpoints.MapMetrics();
     endpoints.MapHealthChecks("/health");
+    endpoints.MapGraphQL();
 });
-
-app.UseInfrastructure();
-
 app.UseHttpLogging();
 app.UseHttpsRedirection();
 app.UseAuthorization();

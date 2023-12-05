@@ -3,11 +3,10 @@
 namespace Domain.Enums
 {
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public enum DocumentType
+    public enum CompanyState
     {
-        Cc,
-        Ce,
-        Pp
+        Active,
+        Inactive
     }
 
 }

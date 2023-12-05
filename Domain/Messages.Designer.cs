@@ -60,7 +60,7 @@ namespace Domain {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Recurso repetido.
+        ///   Looks up a localized string similar to Recurso repetido campo: {0} Valor: {1}.
         /// </summary>
         public static string AlredyExistException {
             get {
@@ -78,6 +78,15 @@ namespace Domain {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to El Id proporcionado en la ruta no coincide con el Id en el cuerpo de la solicitud.
+        /// </summary>
+        public static string IdMismatchException {
+            get {
+                return ResourceManager.GetString("IdMismatchException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to El correo no es valido.
         /// </summary>
         public static string InvalidEmailException {
@@ -87,29 +96,20 @@ namespace Domain {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to El host entrante no es valido.
+        /// </summary>
+        public static string InvalidHostException {
+            get {
+                return ResourceManager.GetString("InvalidHostException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No se encontro el recurso {0}.
         /// </summary>
         public static string ResourceNotFoundException {
             get {
                 return ResourceManager.GetString("ResourceNotFoundException", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to No puede ser menor de edad default.
-        /// </summary>
-        public static string UnderAgeException {
-            get {
-                return ResourceManager.GetString("UnderAgeException", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Pais no admitido.
-        /// </summary>
-        public static string WrongCountryException {
-            get {
-                return ResourceManager.GetString("WrongCountryException", resourceCulture);
             }
         }
     }

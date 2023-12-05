@@ -15,14 +15,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <EmbeddedResource Remove="Messages.resx" />
-      <Resource Include="Messages.resx">
-        <Generator>PublicResXFileCodeGenerator</Generator>
-        <LastGenOutput>Messages.Designer.cs</LastGenOutput>
-      </Resource>
-    </ItemGroup>
-
-    <ItemGroup>
       <EmbeddedResource Update="Messages.en.resx">
         <Generator>PublicResXFileCodeGenerator</Generator>
         <DependentUpon>Messages.resx</DependentUpon>
@@ -31,6 +23,11 @@
         <Generator>PublicResXFileCodeGenerator</Generator>
         <DependentUpon>Messages.resx</DependentUpon>
       </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Messages.resx" />
+      <Resource Include="Messages.resx" />
     </ItemGroup>
 
 </Project>

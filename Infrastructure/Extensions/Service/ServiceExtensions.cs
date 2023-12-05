@@ -15,7 +15,7 @@ public static class ServiceExtensions
 
         foreach (var service in services)
         {
-            svc.AddTransient(service);
+            svc.AddScoped(service);
         }
 
         return svc;

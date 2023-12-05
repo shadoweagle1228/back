@@ -1,6 +1,7 @@
 ﻿namespace Infrastructure.Context.Configuration;
 
-internal static class SchemaNames
+public static class SchemaNames
 {
-    public const string Base = "Base";
+    public const string Config = "Config";
+    public const string Company = "Company";
 }
