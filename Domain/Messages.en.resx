@@ -29,4 +29,7 @@
     <data name="IdMismatchException" xml:space="preserve">
         <value>The provided ID in the route does not match the ID in the request body</value>
     </data>
+    <data name="BadRequestException" xml:space="preserve">
+        <value>the request contain errors {0}</value>
+    </data>
 </root>

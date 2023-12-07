@@ -36,4 +36,7 @@
     <data name="IdMismatchException" xml:space="preserve">
         <value>El Id proporcionado en la ruta no coincide con el Id en el cuerpo de la solicitud</value>
     </data>
+    <data name="BadRequestException" xml:space="preserve">
+        <value>La solicitud contiene errores: {0}</value>
+    </data>
 </root>

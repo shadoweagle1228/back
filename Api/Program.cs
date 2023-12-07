@@ -20,7 +20,11 @@ builder.Services.AddLocalizationMessages();
 builder.Services.Configure<DatabaseSettings>(config.GetSection(nameof(DatabaseSettings)));
 var settings = config.GetSection(nameof(DatabaseSettings)).Get<DatabaseSettings>();
 builder.Services.AddHealthChecks().AddSqlServer(settings.ConnectionString);
-builder.Services.AddControllers(opts => opts.Filters.Add(typeof(AppExceptionFilterAttribute)));
+builder.Services.AddControllers(opts =>
+{
+    opts.Filters.Add(typeof(AppExceptionFilterAttribute));
+    opts.Filters.Add(typeof(GlobalValidateModelAttribute));
+});
 builder.Services.AddInfrastructure(config, builder.Environment);
 
 builder.Services.AddEndpointsApiExplorer();

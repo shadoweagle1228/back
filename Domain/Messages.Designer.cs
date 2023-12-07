@@ -9,8 +9,8 @@
 
 namespace Domain {
     using System;
-    
-    
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -22,15 +22,15 @@ namespace Domain {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Messages {
-        
+
         private static global::System.Resources.ResourceManager resourceMan;
-        
+
         private static global::System.Globalization.CultureInfo resourceCulture;
-        
+
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         internal Messages() {
         }
-        
+
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
@@ -44,7 +44,7 @@ namespace Domain {
                 return resourceMan;
             }
         }
-        
+
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
@@ -58,7 +58,7 @@ namespace Domain {
                 resourceCulture = value;
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to Recurso repetido campo: {0} Valor: {1}.
         /// </summary>
@@ -67,7 +67,7 @@ namespace Domain {
                 return ResourceManager.GetString("AlredyExistException", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to La entidad no puede ser null.
         /// </summary>
@@ -76,7 +76,7 @@ namespace Domain {
                 return ResourceManager.GetString("EntityCannotBeNull", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to El Id proporcionado en la ruta no coincide con el Id en el cuerpo de la solicitud.
         /// </summary>
@@ -85,7 +85,7 @@ namespace Domain {
                 return ResourceManager.GetString("IdMismatchException", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to El correo no es valido.
         /// </summary>
@@ -94,7 +94,7 @@ namespace Domain {
                 return ResourceManager.GetString("InvalidEmailException", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to El host entrante no es valido.
         /// </summary>
@@ -103,13 +103,22 @@ namespace Domain {
                 return ResourceManager.GetString("InvalidHostException", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to No se encontro el recurso {0}.
         /// </summary>
         public static string ResourceNotFoundException {
             get {
                 return ResourceManager.GetString("ResourceNotFoundException", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to No se encontro el recurso {0}.
+        /// </summary>
+        public static string BadRequestException {
+            get {
+                return ResourceManager.GetString("BadRequestException", resourceCulture);
             }
         }
     }

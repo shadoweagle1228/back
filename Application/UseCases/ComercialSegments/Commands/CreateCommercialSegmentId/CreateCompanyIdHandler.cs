@@ -14,8 +14,8 @@ public class CreateCommercialSegmentIdHandler : IRequestHandler<CreateCommercial
 
     public async Task<CreateCommercialSegmentIdDto> Handle(CreateCommercialSegmentIdCommand request, CancellationToken cancellationToken)
     {
-        var companyId = await _repository.AddAsync(new CommercialSegmentId());
-        return new CreateCommercialSegmentIdDto(companyId.Id);
+        var CommercialSegmentId = await _repository.AddAsync(new CommercialSegmentId());
+        return new CreateCommercialSegmentIdDto(CommercialSegmentId.Id);
     }
 
 }

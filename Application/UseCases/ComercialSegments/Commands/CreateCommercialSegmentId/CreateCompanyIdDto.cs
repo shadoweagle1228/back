@@ -1,3 +1,3 @@
 namespace Application.UseCases.ComercialSegments.Commands.CreateCommercialSegmentId;
 
-public record CreateCommercialSegmentIdDto(Guid CompanyId);
+public record CreateCommercialSegmentIdDto(Guid CommercialSegmentId);
