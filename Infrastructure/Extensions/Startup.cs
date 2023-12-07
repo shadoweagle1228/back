@@ -45,6 +45,14 @@ public static class Startup
         using var scope = builder.ApplicationServices.GetService<IServiceScopeFactory>()?.CreateScope();
         var contex = scope!.ServiceProvider.GetRequiredService<PersistenceContext>();
         var start = new Start(contex);
-        await start.InitializeDatabasesAsync();
+        try
+        {
+            await start.InitializeDatabasesAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 }

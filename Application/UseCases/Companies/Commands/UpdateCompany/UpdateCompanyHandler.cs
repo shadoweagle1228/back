@@ -15,12 +15,12 @@ public class UpdateCompanyHandler : IRequestHandler<UpdateCompanyCommand>
     public async Task<Unit> Handle(UpdateCompanyCommand request, CancellationToken cancellationToken)
     {
         var agentToUpdateDto = new AuthorizeAgentToUpdateDto(
-            request.AuthorizeAgent.Name,
-            request.AuthorizeAgent.Surname,
-            request.AuthorizeAgent.Email,
+            request.AuthorizedAgent.Name,
+            request.AuthorizedAgent.Surname,
+            request.AuthorizedAgent.Email,
             new IdentityToUpdateDto(
-                request.AuthorizeAgent.Identity.DocumentType,
-                request.AuthorizeAgent.Identity.LegalIdentifier
+                request.AuthorizedAgent.Identity.DocumentType,
+                request.AuthorizedAgent.Identity.LegalIdentifier
             )
         );
         var dataToUpdate = new CompanyToUpdateDto(

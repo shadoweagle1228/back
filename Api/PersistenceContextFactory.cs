@@ -13,6 +13,7 @@ public class PersistenceContextFactory : IDesignTimeDbContextFactory<Persistence
         var config = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddUserSecrets<Program>()
+            .AddEnvironmentVariables()
             .Build();
         
         var serviceProvider = new ServiceCollection()
@@ -24,7 +25,7 @@ public class PersistenceContextFactory : IDesignTimeDbContextFactory<Persistence
         var databaseSettings = databaseSettingsOptions.Value;
         
         var optionsBuilder = new DbContextOptionsBuilder<PersistenceContext>();
-        optionsBuilder.UseSqlServer(databaseSettings.ConnectionString, sqlopts =>
+        optionsBuilder.UseSqlServer(config.GetConnectionString("SQLCONNSTR_QR_BD"), sqlopts =>
         {
             sqlopts.MigrationsHistoryTable(databaseSettings.MigrationsHistoryTable, databaseSettings.SchemaName);
         });

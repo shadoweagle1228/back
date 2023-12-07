@@ -8,7 +8,7 @@ using Path = System.IO.Path;
 namespace Infrastructure.Extensions.Localization;
 
 public static class LocalizationExtensions {
-    public static IServiceCollection AddLocalizationMessages(this IServiceCollection svc) {
+    public static void AddLocalizationMessages(this IServiceCollection svc) {
         var domainLayerPath = GetPathDomainLayer();
         svc.AddLocalization(options => options.ResourcesPath = domainLayerPath);
         svc.Configure<RequestLocalizationOptions>(options =>
@@ -24,7 +24,6 @@ public static class LocalizationExtensions {
             options.SupportedUICultures = supportedCultures;
         });
         svc.AddSingleton<LocalizationMiddleware>();
-        return svc;
     }
 
     private static string GetPathDomainLayer()
@@ -35,10 +34,9 @@ public static class LocalizationExtensions {
         return domainLayerPath;
     }
 
-    public static IApplicationBuilder UseLocalizationMessages(this IApplicationBuilder app)
+    public static void UseLocalizationMessages(this IApplicationBuilder app)
     {
         app.UseRequestLocalization();
         app.UseMiddleware<LocalizationMiddleware>();
-        return app;
     }
 }

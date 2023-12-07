@@ -14,12 +14,12 @@ if (builder.Environment.IsEnvironment(ApiConstants.LocalEnviroment))
 }
 else
 {
-    config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+    config.AddEnvironmentVariables();
 }
 builder.Services.AddLocalizationMessages();
 builder.Services.Configure<DatabaseSettings>(config.GetSection(nameof(DatabaseSettings)));
 var settings = config.GetSection(nameof(DatabaseSettings)).Get<DatabaseSettings>();
-builder.Services.AddHealthChecks().AddSqlServer(settings.ConnectionString);
+builder.Services.AddHealthChecks().AddSqlServer(config.GetConnectionString("SQLCONNSTR_QR_BD"));
 builder.Services.AddControllers(opts =>
 {
     opts.Filters.Add(typeof(AppExceptionFilterAttribute));
@@ -34,7 +34,15 @@ Log.Logger = new LoggerConfiguration().Enrich.FromLogContext()
     .CreateLogger();
 
 var app = builder.Build();
-await app.InitializeDatabasesAsync();
+try
+{
+    await app.InitializeDatabasesAsync();
+}
+catch (Exception e)
+{
+    Console.WriteLine(e);
+    throw;
+}
 app.UseInfrastructure();
 app.UseLocalizationMessages();
 app.UseRouting().UseHttpMetrics().UseEndpoints(endpoints =>

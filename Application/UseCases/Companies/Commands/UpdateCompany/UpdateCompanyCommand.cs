@@ -12,15 +12,15 @@ public record UpdateCompanyCommand: IRequest<Unit>
     
     public CompanyState State { get; set; }
     
-    public UpdateAuthorizeAgentCommand AuthorizeAgent { get; set; }
+    public UpdateAuthorizeAgentCommand AuthorizedAgent { get; set; }
 
-    public UpdateCompanyCommand(Guid id, string hostname, Guid commercialSegment, CompanyState state, UpdateAuthorizeAgentCommand authorizeAgent)
+    public UpdateCompanyCommand(Guid id, string hostname, Guid commercialSegment, CompanyState state, UpdateAuthorizeAgentCommand authorizedAgent)
     {
         Id = id;
         Hostname = hostname;
         CommercialSegment = commercialSegment;
         State = state;
-        AuthorizeAgent = authorizeAgent;
+        AuthorizedAgent = authorizedAgent;
     }
 }
 
