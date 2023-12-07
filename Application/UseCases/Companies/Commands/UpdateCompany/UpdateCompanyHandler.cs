@@ -14,8 +14,22 @@ public class UpdateCompanyHandler : IRequestHandler<UpdateCompanyCommand>
 
     public async Task<Unit> Handle(UpdateCompanyCommand request, CancellationToken cancellationToken)
     {
-        var dataToUpdate = new CompanyToUpdateDto(request.Id, request.Name, request.Hostname, request.LegalIdentifier,
-            request.CommercialSegment);
+        var agentToUpdateDto = new AuthorizeAgentToUpdateDto(
+            request.AuthorizeAgent.Name,
+            request.AuthorizeAgent.Surname,
+            request.AuthorizeAgent.Email,
+            new IdentityToUpdateDto(
+                request.AuthorizeAgent.Identity.DocumentType,
+                request.AuthorizeAgent.Identity.LegalIdentifier
+            )
+        );
+        var dataToUpdate = new CompanyToUpdateDto(
+            request.Id,
+            request.Hostname,
+            request.State,
+            request.CommercialSegment,
+            agentToUpdateDto
+        );
         await _companyUpdateService.UpdateAsync(dataToUpdate);
         return new Unit();
     }

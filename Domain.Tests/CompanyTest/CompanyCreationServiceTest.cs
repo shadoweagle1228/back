@@ -19,8 +19,8 @@ public class CompanyCreationServiceTest
         _companyRepository = Substitute.For<IGenericRepository<Company>>();
         _documentTypeRespository = Substitute.For<IGenericRepository<DocumentType>>();
         _commercialSegmentRespository = Substitute.For<IGenericRepository<CommercialSegment>>();
-        var companyValidationService = new CompanyValidationService(_companyRepository, _commercialSegmentRespository);
-        _companyCreationService = new CompanyCreationService(_companyRepository, _documentTypeRespository, companyValidationService);
+        var companyValidationService = new CompanyValidationService(_companyRepository, _commercialSegmentRespository, _documentTypeRespository);
+        _companyCreationService = new CompanyCreationService(_companyRepository, companyValidationService);
     }
     
     [Fact]

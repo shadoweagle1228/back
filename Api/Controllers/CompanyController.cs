@@ -27,7 +27,7 @@ public class CompanyController : ControllerBase
     }
     
     [HttpPatch("{id:guid}")]
-    public async Task UpdateCompany(Guid id, UpdateCompanyCommand command)
+    public async Task UpdateCompany(Guid id, [FromBody]UpdateCompanyCommand command)
     {
         command.Id = id;
         await _mediator.Send(command);

@@ -1,3 +1,5 @@
+using Domain.Services.Companies.Dto;
+
 namespace Domain.Entities.ValueObjects;
 
 public class AuthorizedAgent : ValueObject
@@ -17,10 +19,10 @@ public class AuthorizedAgent : ValueObject
         Identity = identity;
     }
 
-    public void Update(string name, string surname, string email)
+    public void Update(AuthorizeAgentToUpdateDto authorizeAgentToUpdate)
     {
-        Name = name;
-        Surname = surname;
-        Email = email;
+        Name = authorizeAgentToUpdate.Name;
+        Surname = authorizeAgentToUpdate.Surname;
+        Email = authorizeAgentToUpdate.Email;
     }
 }

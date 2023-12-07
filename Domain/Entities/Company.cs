@@ -1,5 +1,6 @@
 using Domain.Entities.ValueObjects;
 using Domain.Enums;
+using Domain.Services.Companies.Dto;
 
 namespace Domain.Entities;
 
@@ -30,15 +31,20 @@ public class Company : EntityBase<Guid>, IAggregateRoot
         Hostname = hostname;
         AuthorizedAgent = authorizedAgent;
         CommercialSegmentId = commercialSegmentId;
-        State = CompanyState.Active;
+        State = CompanyState.ENABLE;
     }
 
-    public void Update(string legalIdentifier, string name, string hostname, Guid commercialSegmentId)
+    public void Update(
+        string hostname,
+        CompanyState state,
+        Guid commercialSegmentId,
+        AuthorizeAgentToUpdateDto authorizeAgentToUpdate
+    )
     {
-        LegalIdentifier = legalIdentifier;
-        Name = name;
         Hostname = hostname;
+        State = state;
         CommercialSegmentId = commercialSegmentId;
+        AuthorizedAgent.Update(authorizeAgentToUpdate);
     }
 
 }

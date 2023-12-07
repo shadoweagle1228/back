@@ -10,15 +10,18 @@ public class CompanyValidationService
 {
     private readonly IGenericRepository<Company> _companyRepository;
     private readonly IGenericRepository<CommercialSegment> _commercialSegmentRepository;
+    private readonly IGenericRepository<DocumentType> _documentTypeRepository;
 
     public CompanyValidationService(
 
         IGenericRepository<Company> companyRepository,
-        IGenericRepository<CommercialSegment> commercialSegmentRepository
+        IGenericRepository<CommercialSegment> commercialSegmentRepository,
+        IGenericRepository<DocumentType> documentTypeRepository
     )
     {
         _companyRepository = companyRepository;
         _commercialSegmentRepository = commercialSegmentRepository;
+        _documentTypeRepository = documentTypeRepository;
     }
 
     public async Task ValidateExistingHostNameAsync(string host)
@@ -42,22 +45,22 @@ public class CompanyValidationService
         }
     }
 
-    public async Task ValidateExistingCompanyNameAsync(string name)
+    public async Task ValidateExistDocumentTypeAsync(string codeDocumentType)
     {
-        bool alredyExistLegalIdentifier = await _companyRepository.Exist(company => company.Name == name);
-        if (alredyExistLegalIdentifier)
+        bool existDocumentType = await _documentTypeRepository.Exist(documentType => documentType.Code == codeDocumentType);
+        if (!existDocumentType)
         {
-            string exceptionMessage = string.Format(Messages.AlredyExistException, nameof(name), name);
-            throw new ResourceAlreadyExistException(exceptionMessage);
+            string exceptionMessage = string.Format(Messages.AlredyExistException, codeDocumentType);
+            throw new ResourceNotFoundException(exceptionMessage);
         }
     }
 
-    public async Task ValidateExistingCompanyLegalIdentifierAsync(string companyLegalIdentifier)
+    public async Task ValidateExistingAuthorizedAgentLegalIdentifierAsync(string authorizedAgentLegalIdentifier)
     {
-        bool alredyExistLegalIdentifier = await _companyRepository.Exist(company => company.LegalIdentifier == companyLegalIdentifier);
+        bool alredyExistLegalIdentifier = await _companyRepository.Exist(company => company.AuthorizedAgent.Identity.LegalIdentifier == authorizedAgentLegalIdentifier);
         if (alredyExistLegalIdentifier)
         {
-            string exceptionMessage = string.Format(Messages.AlredyExistException, nameof(companyLegalIdentifier), companyLegalIdentifier);
+            string exceptionMessage = string.Format(Messages.AlredyExistException, nameof(authorizedAgentLegalIdentifier), authorizedAgentLegalIdentifier);
             throw new ResourceAlreadyExistException(exceptionMessage);
         }
     }

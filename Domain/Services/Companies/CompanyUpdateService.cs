@@ -22,31 +22,46 @@ public class CompanyUpdateService
         var company = await FindCompanyById(dataToUpdate.Id);
         await ValidateDataToUpdate(dataToUpdate, company);
         company.Update(
-            dataToUpdate.LegalIdentifier,
-            dataToUpdate.Name,
             dataToUpdate.Hostname,
-            dataToUpdate.CommercialSegmentId
+            dataToUpdate.State,
+            dataToUpdate.CommercialSegmentId,
+            dataToUpdate.AuthorizedAgent
         );
         await _companyRepository.UpdateAsync(company);
     }
 
     private async Task ValidateDataToUpdate(CompanyToUpdateDto dataToUpdate, Company company)
     {
+        await ValidateCommercialSegment(dataToUpdate, company);
+        await ValidateAuthorizedAgent(dataToUpdate, company);
+        await ValidateHostname(dataToUpdate, company);
+    }
+
+    private async Task ValidateCommercialSegment(CompanyToUpdateDto dataToUpdate, Company company)
+    {
         if (company.CommercialSegmentId != dataToUpdate.CommercialSegmentId)
         {
             await _companyValidationService.ValidateExistingCommercialSegmentAsync(dataToUpdate.CommercialSegmentId);
         }
+    }
 
-        if (company.Name != dataToUpdate.Name)
+    private async Task ValidateAuthorizedAgent(CompanyToUpdateDto dataToUpdate, Company company)
+    {
+        var authorizedAgent = dataToUpdate.AuthorizedAgent;
+
+        if (company.AuthorizedAgent.Identity.LegalIdentifier != authorizedAgent.Identity.LegalIdentifier)
         {
-            await _companyValidationService.ValidateExistingCompanyNameAsync(dataToUpdate.Name);
+            await _companyValidationService.ValidateExistingAuthorizedAgentLegalIdentifierAsync(authorizedAgent.Identity.LegalIdentifier);
         }
 
-        if (company.LegalIdentifier != dataToUpdate.LegalIdentifier)
+        if (company.AuthorizedAgent.Identity.DocumentType != authorizedAgent.Identity.DocumentType)
         {
-            await _companyValidationService.ValidateExistingCompanyLegalIdentifierAsync(dataToUpdate.LegalIdentifier);
+            await _companyValidationService.ValidateExistDocumentTypeAsync(authorizedAgent.Identity.DocumentType);
         }
+    }
 
+    private async Task ValidateHostname(CompanyToUpdateDto dataToUpdate, Company company)
+    {
         if (company.Hostname != dataToUpdate.Hostname)
         {
             await _companyValidationService.ValidateExistingHostNameAsync(dataToUpdate.Hostname);

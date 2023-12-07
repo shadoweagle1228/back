@@ -5,8 +5,9 @@ namespace Domain.Enums
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum CompanyState
     {
-        Active,
-        Inactive
+        ENABLE,
+        DISABLE,
+        DELETED
     }
 
 }
