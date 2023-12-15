@@ -1,6 +1,5 @@
 using Infrastructure.Context;
 using Infrastructure.Extensions.Cors;
-using Infrastructure.Extensions.Localization;
 using Infrastructure.Extensions.Logs;
 using Infrastructure.Extensions.Mapper;
 using Infrastructure.Extensions.Mediator;

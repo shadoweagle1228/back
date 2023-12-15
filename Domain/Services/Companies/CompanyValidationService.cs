@@ -50,7 +50,7 @@ public class CompanyValidationService
         bool existDocumentType = await _documentTypeRepository.Exist(documentType => documentType.Code == codeDocumentType);
         if (!existDocumentType)
         {
-            string exceptionMessage = string.Format(Messages.AlredyExistException, codeDocumentType);
+            string exceptionMessage = string.Format(Messages.ResourceNotFoundException, codeDocumentType);
             throw new ResourceNotFoundException(exceptionMessage);
         }
     }

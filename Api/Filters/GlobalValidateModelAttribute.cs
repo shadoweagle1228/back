@@ -25,7 +25,10 @@ public class GlobalValidateModelAttribute : IActionFilter
         var exception = new BadRequestException(errorMessage);
         _Logger.LogError(exception, exception.Message, exception.StackTrace);
         var errorResponse = new ErrorResponse((int)HttpStatusCode.BadRequest, exception.Message, exception.GetType().Name);
-        context.Result = new ObjectResult(errorResponse);
+        context.Result = new ObjectResult(errorResponse)
+        {
+            StatusCode = errorResponse.Code
+        };
     }
 
     private static string GenerateErrorMessage(ActionContext context)

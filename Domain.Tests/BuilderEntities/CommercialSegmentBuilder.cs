@@ -4,7 +4,7 @@ namespace Domain.Tests.BuilderEntities;
 
 public class CommercialSegmentBuilder
 {
-    private Guid _id = Guid.NewGuid();
+    private readonly Guid _id = Guid.NewGuid();
     private string _name = "Colchones";
     private string _description = "Segmento ventas colchones";
 

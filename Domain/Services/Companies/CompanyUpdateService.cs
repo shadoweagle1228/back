@@ -11,7 +11,11 @@ public class CompanyUpdateService
     private readonly IGenericRepository<Company> _companyRepository;
     private readonly CompanyValidationService _companyValidationService;
 
-    public CompanyUpdateService(IGenericRepository<Company> companyRepository, CompanyValidationService companyValidationService)
+    public CompanyUpdateService
+        (
+        IGenericRepository<Company> companyRepository,
+        CompanyValidationService companyValidationService
+        )
     {
         _companyRepository = companyRepository;
         _companyValidationService = companyValidationService;

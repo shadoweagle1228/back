@@ -1,4 +1,5 @@
-﻿using Infrastructure.Context;
+﻿using Api.Tests.Seeders;
+using Infrastructure.Context;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,9 +10,6 @@ namespace Api.Tests;
 
 public class ApiApp : WebApplicationFactory<Program>
 {
-    public Guid UserId { get; } = Guid.NewGuid();
-
-    // We should use this service collection to access repos and seed data for tests
     public IServiceProvider GetServiceCollection()
     {
         return Services;           
@@ -19,19 +17,28 @@ public class ApiApp : WebApplicationFactory<Program>
 
     protected override IHost CreateHost(IHostBuilder builder)
     {
-        builder.ConfigureServices(svc =>
+        builder.ConfigureServices(services =>
         {
-            svc.RemoveAll(typeof(DbContextOptions<PersistenceContext>));
-            svc.AddDbContext<PersistenceContext>(opt =>
+            services.RemoveAll(typeof(DbContextOptions<PersistenceContext>));
+            services.AddDbContext<PersistenceContext>(opt =>
             {
                 opt.UseInMemoryDatabase("testdb");
             });
 
+            services.AddTransient<IDataSeeder, CommercialSegmentSeeder>();
         });
-
+        SeedDatabase(builder.Build().Services);
         return base.CreateHost(builder);
     }
 
-    
+    private static void SeedDatabase(IServiceProvider services)
+    {
+        using var scope = services.CreateScope();
+        var seeders = scope.ServiceProvider.GetServices<IDataSeeder>();
+        foreach (var seeder in seeders)
+        {
+            seeder.Seed();
+        }
+    }
 }
 

@@ -1,6 +1,7 @@
 using System.Net;
 using Application.Common.Exceptions;
 using Domain.Exceptions;
+using Domain.Exceptions.Common;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Api.Filters;
@@ -23,10 +24,10 @@ public sealed class AppExceptionFilterAttribute : ExceptionFilterAttribute
         context.HttpContext.Response.StatusCode = context.Exception switch
         {
             ValidationException  => (int)HttpStatusCode.BadRequest,
+            ResourceNotFoundException => (int)HttpStatusCode.NotFound,
+            ResourceAlreadyExistException => (int)HttpStatusCode.Conflict,
             CoreBusinessException => (int)HttpStatusCode.BadRequest,
-            NotFoundException => (int)HttpStatusCode.NotFound,
             ForbiddenException => (int)HttpStatusCode.Forbidden,
-            AlreadyExistException => (int)HttpStatusCode.BadRequest,
             ConflictException => (int)HttpStatusCode.Conflict,
             CustomException => (int)HttpStatusCode.BadRequest,
             _ => (int)HttpStatusCode.InternalServerError

@@ -24,5 +24,6 @@ public class AuthorizedAgent : ValueObject
         Name = authorizeAgentToUpdate.Name;
         Surname = authorizeAgentToUpdate.Surname;
         Email = authorizeAgentToUpdate.Email;
+        Identity.Update(authorizeAgentToUpdate.Identity);
     }
 }

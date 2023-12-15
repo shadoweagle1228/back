@@ -25,7 +25,7 @@ public class PersistenceContextFactory : IDesignTimeDbContextFactory<Persistence
         var databaseSettings = databaseSettingsOptions.Value;
         
         var optionsBuilder = new DbContextOptionsBuilder<PersistenceContext>();
-        optionsBuilder.UseSqlServer(config.GetConnectionString("SQLCONNSTR_QR_BD"), sqlopts =>
+        optionsBuilder.UseSqlServer(databaseSettings.ConnectionString, sqlopts =>
         {
             sqlopts.MigrationsHistoryTable(databaseSettings.MigrationsHistoryTable, databaseSettings.SchemaName);
         });

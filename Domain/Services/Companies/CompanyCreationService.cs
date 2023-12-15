@@ -26,10 +26,10 @@ public class CompanyCreationService
         await ValidateExistingAuthorizedAgentEmailAsync(company.AuthorizedAgent.Email);
         await ValidateExistingCompanyNameAsync(company.Name);
         await ValidateExistingCompanyLegalIdentifierAsync(company.LegalIdentifier);
+        await _companyValidationService.ValidateExistDocumentTypeAsync(company.AuthorizedAgent.Identity.DocumentType);
         await _companyValidationService.ValidateExistingHostNameAsync(company.Hostname);
         await _companyValidationService.ValidateExistingCommercialSegmentAsync(company.CommercialSegmentId);
         await _companyValidationService.ValidateExistingAuthorizedAgentLegalIdentifierAsync(company.AuthorizedAgent.Identity.LegalIdentifier);
-        await _companyValidationService.ValidateExistDocumentTypeAsync(company.AuthorizedAgent.Identity.DocumentType);
         await _companyRepository.AddAsync(company);
     }
 

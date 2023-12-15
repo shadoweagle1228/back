@@ -19,7 +19,7 @@ else
 builder.Services.AddLocalizationMessages();
 builder.Services.Configure<DatabaseSettings>(config.GetSection(nameof(DatabaseSettings)));
 var settings = config.GetSection(nameof(DatabaseSettings)).Get<DatabaseSettings>();
-builder.Services.AddHealthChecks().AddSqlServer(config.GetConnectionString("SQLCONNSTR_QR_BD"));
+builder.Services.AddHealthChecks().AddSqlServer(settings.ConnectionString);
 builder.Services.AddControllers(opts =>
 {
     opts.Filters.Add(typeof(AppExceptionFilterAttribute));
@@ -34,15 +34,7 @@ Log.Logger = new LoggerConfiguration().Enrich.FromLogContext()
     .CreateLogger();
 
 var app = builder.Build();
-try
-{
-    await app.InitializeDatabasesAsync();
-}
-catch (Exception e)
-{
-    Console.WriteLine(e);
-    throw;
-}
+await app.InitializeDatabasesAsync();
 app.UseInfrastructure();
 app.UseLocalizationMessages();
 app.UseRouting().UseHttpMetrics().UseEndpoints(endpoints =>
